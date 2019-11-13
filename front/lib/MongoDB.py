@@ -37,7 +37,7 @@ class MongoDB(object):
                 if len(col_list) > 0:
                     return True
                 else:
-                    self.__connect()
+                    return False
             else:
                 self.__connect()
             return True
