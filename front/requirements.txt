@@ -13,11 +13,9 @@ jedi==0.15.1
 Jinja2==2.10.3
 numpy==1.17.3
 pycparser==2.19
-pycurl==7.43.0
 pymongo==3.9.0
 PyMySQL==0.9.3
 requests==2.9.1
 tornado==6.0.3
 urllib3==1.13.1
-Werkzeug==0.16.0
 zhconv==1.4.0
