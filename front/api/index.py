@@ -23,7 +23,11 @@ import subprocess
 logger = get_log()
 config = get_config()
 ResourceDB = MongoDB()
-ResourceDB.init("mongodb://day9011:5673914@121.40.82.87:15001", "resource", "display")
+host = config['mongodb']['host']
+port = config['mongodb']['port']
+username = os.environ['MongoUser']
+password = os.environ['MongoPass']
+ResourceDB.init("mongodb://{}:{}@{}:{}".format(username, password, host, port), "resource", "display")
 
 
 @server.route('/index/display', methods=['POST'])
