@@ -27,7 +27,7 @@ host = config['mongodb']['host']
 port = config['mongodb']['port']
 username = os.environ['MongoUser']
 password = os.environ['MongoPass']
-ResourceDB.init("mongodb://{}:{}@{}:{}".format(username, password, host, port), "resource", "display")
+ResourceDB.init("mongodb://{}:{}@{}:{}/resource".format(username, password, host, port), "resource", "display")
 
 
 @server.route('/index/display', methods=['POST'])

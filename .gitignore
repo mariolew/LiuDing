@@ -1,1 +1,9 @@
 *.pyc
+*.txt
+*.a
+*.so
+*.o
+*.log
+*.zip
+*.tgz
+*.tar.gz
