@@ -19,7 +19,10 @@ from utils.MakeToken import gen_token
 
 logger = get_log()
 config = get_config()
-db = MysqlDB()
+mysqldb = MysqlDB(host=config['mysqldb']['host'],
+                username=config['mysqldb']['username'],
+                password=config['mysqldb']['password'],
+                dbname=config['mysqldb']['dbname'])
 
 @server.route('/login', methods=['GET', 'POST'])
 def Login():
@@ -48,7 +51,7 @@ def Login():
 
             # get the password
             sql_command = 'SELECT password FROM account WHERE account.account="{}"'.format(account)
-            results = db.query(sql_command)
+            results = mysqldb.query(sql_command)
             sql_password = results[0][0]
             if sql_password != password:
                 status = -11
@@ -56,7 +59,7 @@ def Login():
 
             # get the name
             sql_command = "SELECT student.name FROM account,student WHERE account.account='{}' and student.id=account.id".format(account)
-            results = db.query(sql_command)
+            results = mysqldb.query(sql_command)
             name = results[0][0]
 
             session['account'] = account

@@ -22,13 +22,13 @@ import subprocess
 
 logger = get_log()
 config = get_config()
-ResourceDB = MongoDB()
-host = config['mongodb']['host']
-port = config['mongodb']['port']
-username = os.environ['MongoUser']
-password = os.environ['MongoPass']
-ResourceDB.init("mongodb://{}:{}@{}:{}/resource".format(username, password, host, port), "resource", "display")
-
+mongodb = MongoDB()
+mongo_uri = "mongodb://{}:{}@{}:{}/resource".format(
+config['mongodb']['username'],
+config['mongodb']['password'],
+config['mongodb']['host'],
+config['mongodb']['port'])
+mongodb.init(mongo_uri, "resource", "display")
 
 @server.route('/index/display', methods=['POST'])
 def IndexDisplay():
@@ -43,7 +43,7 @@ def IndexDisplay():
             if num < 1:
                 status = -10
                 raise Exception('the num param error')
-            col = ResourceDB.get_col()
+            col = mongodb.get_col()
             base64_imgs = []
             for i in col.find({'page': 'index',
                     'time': {"$gte": datetime.datetime(2019, 10, 22, 0, 0, 0)}},

@@ -22,9 +22,18 @@ from lib.MysqlDB import *
 
 logger = get_log()
 config = get_config()
-CourseDB = MongoDB()
-CourseDB.init("mongodb://day9011:5673914@121.40.82.87:15001", "course", "signup")
-db = MysqlDB()
+mongodb = MongoDB()
+mongo_uri = "mongodb://{}:{}@{}:{}/resource".format(
+config['mongodb']['username'],
+config['mongodb']['password'],
+config['mongodb']['host'],
+config['mongodb']['port'])
+mongodb.init(mongo_uri, "resource", "display")
+
+mysqldb = MysqlDB(host=config['mysqldb']['host'],
+                username=config['mysqldb']['username'],
+                password=config['mysqldb']['password'],
+                dbname=config['mysqldb']['dbname'])
 
 course_dict = {
     0: "math",
@@ -101,7 +110,7 @@ def CourseSignup():
                     'grade': int(grade),
                     'signup_time': datetime.datetime.now()
                 }
-                CourseDB.insert_one(insert_dict)
+                mongodb.insert_one(insert_dict)
                 return json.dumps({'status': status, 'mes': 'OK'})
             else:
                 return json.dumps({'status': status, 'mes': "not login"})

@@ -22,9 +22,13 @@ import subprocess
 
 logger = get_log()
 config = get_config()
-ResourceDB = MongoDB()
-ResourceDB.init("mongodb://day9011:5673914@121.40.82.87:15001", "resource", "display")
-
+mongodb = MongoDB()
+mongo_uri = "mongodb://{}:{}@{}:{}/resource".format(
+config['mongodb']['username'],
+config['mongodb']['password'],
+config['mongodb']['host'],
+config['mongodb']['port'])
+mongodb.init(mongo_uri, "resource", "display")
 
 def get_personal_course_info(name):
     return name

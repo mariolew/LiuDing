@@ -18,7 +18,10 @@ from lib.MysqlDB import *
 
 logger = get_log()
 config = get_config()
-db = MysqlDB()
+mysqldb = MysqlDB(host=config['mysqldb']['host'],
+                username=config['mysqldb']['username'],
+                password=config['mysqldb']['password'],
+                dbname=config['mysqldb']['dbname'])
 
 @server.route('/register', methods=['GET', 'POST'])
 def Register():
@@ -62,7 +65,7 @@ def Register():
             info = {'interface': "Register", 'params': params}
             info_str = json.dumps(info, ensure_ascii=False)
             logger.info(info_str)
-            if db.verify_student_account(account) > 0:
+            if mysqldb.verify_student_account(account) > 0:
                 status = -201
                 raise Exception('account {} is exist'.format(account))
 
@@ -70,16 +73,16 @@ def Register():
             sql_command = """INSERT INTO student (name,tel,sex,age,school,email,parent_name,relation,parent_tel) \
                 VALUES ('{}', '{}', '{}', '{}', {}, {}, '{}', '{}', '{}')""".format(
                     name, tel, int(sex), int(age), school, email, parent, int(relation), parent_tel)
-            db.execute(sql_command)
+            mysqldb.execute(sql_command)
 
             # get the id of the student
             sql_command = """SELECT id FROM student WHERE student.parent_tel='{}'""".format(parent_tel)
-            results = db.query(sql_command)
+            results = mysqldb.query(sql_command)
             _id = int(results[0][0])
 
             # insert account into table
             sql_command = """INSERT INTO account (id, account, password) VALUES({}, '{}', '{}')""".format(_id, account, password)
-            db.execute(sql_command)
+            mysqldb.execute(sql_command)
             return json.dumps({'status': status, 'mes': "{} register successfully".format(name)}, ensure_ascii=False)
     except Exception as e:
         if status == 1:
