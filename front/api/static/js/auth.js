@@ -40,6 +40,7 @@ function Register() {
             if (Number(ret['status']) != 1) {
                 alert(req);
             } else {
+                alert("register successfully");
                 window.location.replace("/index");
             }
         },

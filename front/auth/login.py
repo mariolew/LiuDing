@@ -24,6 +24,7 @@ mysqldb = MysqlDB(host=config['mysqldb']['host'],
                 password=config['mysqldb']['password'],
                 dbname=config['mysqldb']['dbname'])
 
+
 @server.route('/login', methods=['GET', 'POST'])
 def Login():
     status = 1

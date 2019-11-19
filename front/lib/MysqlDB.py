@@ -99,6 +99,7 @@ class MysqlDB(object):
             # 执行sql语句
             self.cursor.execute(sql)
             results = self.cursor.fetchall()
+            print(results)
             return results
         except Exception as e:
             logger.error(str(e))
