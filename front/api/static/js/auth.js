@@ -74,6 +74,7 @@ function Login() {
             if (Number(ret['status']) != 1) {
                 alert(req);
             } else {
+                alert('login successfully');
                 window.location.href="/index";
             }
         },

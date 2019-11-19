@@ -15,6 +15,8 @@ import requests
 from flask import request, session, redirect, render_template, url_for, make_response
 from lib.MysqlDB import *
 from utils.MakeToken import gen_token
+from utils.GetTime import get_expires
+
 
 
 logger = get_log()
@@ -70,11 +72,16 @@ def Login():
             session['account'] = account
             token = gen_token()
             resp = make_response(json.dumps({'status': status, 'mes': 'login successfully'}))
-            resp.set_cookie('account', account)
-            resp.set_cookie('token', token)
-            resp.set_cookie('name', name)
+            expires = get_expires()
+            resp.set_cookie('account', account, expires=expires)
+            resp.set_cookie('token', token, expires=expires)
+            resp.set_cookie('name', name, expires=expires)
             return resp
         else:
+            resp = make_response(json.dumps({'status': -403, 'mes': 'login first'}))
+            resp.set_cookie('account', '')
+            resp.set_cookie('token', '')
+            resp.set_cookie('name', '')
             return redirect('/')
     except Exception as e:
         if status == 1:

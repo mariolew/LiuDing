@@ -83,6 +83,12 @@ function IsLogin() {
     $("#login_btn").attr("href", "/personal");
 }
 
+function NotLogin() {
+    $("#register_btn").show();
+    $("#login_btn").text("登陆");
+    $("#login_btn").attr("href", "/login");
+}
+
 function GetCookie(name) {
     var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
  
@@ -100,5 +106,7 @@ $(function() {
     var account = GetCookie('account');
     if ((token != null) && (account != null)) {
         IsLogin();
+    } else {
+        NotLogin();
     }
 });

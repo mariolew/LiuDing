@@ -15,7 +15,9 @@ def get_ct():
 def get_date():
     t_format = datetime.datetime.now().strftime("%Y-%m-%d")
     return str(t_format)
-
+def get_expires():
+    expires = datetime.datetime.now() + datetime.timedelta(hours=1)
+    return expires
 
 if __name__ == "__main__":
     print(get_ct())
