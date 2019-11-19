@@ -6,7 +6,7 @@ import os
 from utils.Config import get_config
 from utils.Log import get_log
 from utils.Tools import *
-from flask import request, session, redirect, render_template, url_for
+from flask import request, session, redirect, render_template, url_for, make_response
 from utils.GetTime import *
 from api import server
 import random
@@ -72,14 +72,24 @@ def CourseIndex():
     if request.method == 'GET':
         status = 1
         try:
-            if 'account' in session:
+            account = request.cookies.get('account')
+            if 'account' in session and session['account'] == account:
                 info = {'ip': request.remote_addr, 'url': request.url, 'interface': "CourseIndex"}
                 info_str = json.dumps(info, ensure_ascii=False)
                 logger.info(info_str)
                 main_js = url_for('static', filename='js/main.js')
-                return render_template('course.html', main=main_js)
+                content = render_template('course.html', main=main_js)
             else:
-                return redirect('/')
+                content = redirect('/')
+            resp = make_response(content)
+            if not ('account' in session and session['account'] == account):
+                try:
+                    resp.delete_cookie('account')
+                    resp.delete_cookie('token')
+                    resp.delete_cookie('name')
+                except:
+                    pass
+            return resp
         except Exception as e:
             if status == 1:
                 status = -10000
@@ -93,7 +103,8 @@ def CourseSignup():
     if request.method == 'POST':
         status = 1
         try:
-            if 'account' in session:
+            account = request.cookies.get('account')
+            if 'account' in session and session['account'] == account:
                 info = {'ip': request.remote_addr, 'url': request.url, 'interface': "CourseSignup"}
                 info_str = json.dumps(info, ensure_ascii=False)
                 logger.info(info_str)
@@ -111,9 +122,19 @@ def CourseSignup():
                     'signup_time': datetime.datetime.now()
                 }
                 mongodb.insert_one(insert_dict)
-                return json.dumps({'status': status, 'mes': 'OK'})
+                ret_str = json.dumps({'status': status, 'mes': 'OK'})
             else:
-                return json.dumps({'status': status, 'mes': "not login"})
+                ret_str = json.dumps({'status': status, 'mes': "not login"})
+            
+            resp = make_response(content)
+            if not ('account' in session and session['account'] == account):
+                try:
+                    resp.delete_cookie('account')
+                    resp.delete_cookie('token')
+                    resp.delete_cookie('name')
+                except:
+                    pass
+            return resp
         except Exception as e:
             if status == 1:
                 status = -10000
@@ -128,7 +149,8 @@ def CourseQuery():
     if request.method == 'GET':
         status = 1
         try:
-            if 'account' in session:
+            account = request.cookies.get('account')
+            if 'account' in session and session['account'] == account:
                 info = {'ip': request.remote_addr, 'url': request.url, 'interface': "CourseQuery"}
                 info_str = json.dumps(info, ensure_ascii=False)
                 logger.info(info_str)
@@ -136,9 +158,19 @@ def CourseQuery():
                 courses = db.query(sql_command)
                 courses = [parse_course(x) for x in courses]
                 courses = sort_courses(courses)
-                return json.dumps({'status': status, 'courses': courses}, ensure_ascii=False)
+                ret_str = json.dumps({'status': status, 'courses': courses}, ensure_ascii=False)
             else:
-                return json.dumps({'status': status, 'mes': "not login"})
+                ret_str = json.dumps({'status': status, 'mes': "not login"})
+            
+            resp = make_response(content)
+            if not ('account' in session and session['account'] == account):
+                try:
+                    resp.delete_cookie('account')
+                    resp.delete_cookie('token')
+                    resp.delete_cookie('name')
+                except:
+                    pass
+            return resp
         except Exception as e:
             info = {'interface': "CourseQuery", 'message': str(e)}
             info_str = json.dumps(info, ensure_ascii=False)

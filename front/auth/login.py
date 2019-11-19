@@ -25,7 +25,7 @@ mysqldb = MysqlDB(host=config['mysqldb']['host'],
                 username=config['mysqldb']['username'],
                 password=config['mysqldb']['password'],
                 dbname=config['mysqldb']['dbname'])
-
+__MAX_AGE = int(config['auth']['max_age'])
 
 @server.route('/login', methods=['GET', 'POST'])
 def Login():
@@ -72,17 +72,19 @@ def Login():
             session['account'] = account
             token = gen_token()
             resp = make_response(json.dumps({'status': status, 'mes': 'login successfully'}))
-            expires = get_expires()
-            resp.set_cookie('account', account, expires=expires)
-            resp.set_cookie('token', token, expires=expires)
-            resp.set_cookie('name', name, expires=expires)
+            resp.set_cookie('account', account, max_age=__MAX_AGE)
+            resp.set_cookie('token', token, max_age=__MAX_AGE)
+            resp.set_cookie('name', name, max_age=__MAX_AGE)
             return resp
         else:
-            resp = make_response(json.dumps({'status': -403, 'mes': 'login first'}))
-            resp.set_cookie('account', '')
-            resp.set_cookie('token', '')
-            resp.set_cookie('name', '')
-            return redirect('/')
+            try:
+                resp = make_response(redirect('/'))
+                resp.delete_cookie('account')
+                resp.delete_cookie('token')
+                resp.delete_cookie('name')
+            except:
+                pass
+            return resp
     except Exception as e:
         if status == 1:
             status = -10000
