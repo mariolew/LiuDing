@@ -71,7 +71,7 @@ def Register():
 
             # insert information
             sql_command = """INSERT INTO student (name,tel,sex,age,school,email,parent_name,relation,parent_tel) \
-                VALUES ('{}', '{}', '{}', '{}', {}, {}, '{}', '{}', '{}')""".format(
+                VALUES ('{}', '{}', {}, {}, '{}', '{}', '{}', {}, '{}')""".format(
                     name, tel, int(sex), int(age), school, email, parent, int(relation), parent_tel)
             mysqldb.execute(sql_command)
 
