@@ -53,7 +53,11 @@ def Login():
             # get the password
             sql_command = 'SELECT password FROM account WHERE account.account="{}"'.format(account)
             results = mysqldb.query(sql_command)
-            sql_password = results[0][0]
+            if results:
+                sql_password = results[0][0]
+            else:
+                status = -11
+                raise Exception("Authentication failed!")
             if sql_password != password:
                 status = -11
                 raise Exception("Authentication failed!")
