@@ -126,7 +126,6 @@ def CourseSignup():
             else:
                 ret_str = json.dumps({'status': status, 'mes': "not login"})
             
-            resp = make_response(content)
             if not ('account' in session and session['account'] == account):
                 try:
                     resp.delete_cookie('account')
@@ -134,7 +133,7 @@ def CourseSignup():
                     resp.delete_cookie('name')
                 except:
                     pass
-            return resp
+            return ret_str
         except Exception as e:
             if status == 1:
                 status = -10000
@@ -155,14 +154,13 @@ def CourseQuery():
                 info_str = json.dumps(info, ensure_ascii=False)
                 logger.info(info_str)
                 sql_command = "SELECT * FROM course, teacher WHERE course.tid=teacher.id"
-                courses = db.query(sql_command)
+                courses = mysqldb.query(sql_command)
                 courses = [parse_course(x) for x in courses]
                 courses = sort_courses(courses)
                 ret_str = json.dumps({'status': status, 'courses': courses}, ensure_ascii=False)
             else:
                 ret_str = json.dumps({'status': status, 'mes': "not login"})
             
-            resp = make_response(content)
             if not ('account' in session and session['account'] == account):
                 try:
                     resp.delete_cookie('account')
@@ -170,7 +168,7 @@ def CourseQuery():
                     resp.delete_cookie('name')
                 except:
                     pass
-            return resp
+            return ret_str
         except Exception as e:
             info = {'interface': "CourseQuery", 'message': str(e)}
             info_str = json.dumps(info, ensure_ascii=False)
