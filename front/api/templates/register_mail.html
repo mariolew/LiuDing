@@ -1,0 +1,142 @@
+<!Doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="theme-color" content="#EE6E73">
+    <title>注册</title>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.bootcss.com/materialize/1.0.0-rc.2/js/materialize.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/materialize/1.0.0-rc.2/css/materialize.css">
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="{{main}}"></script>
+    <script src="{{auth}}"></script>
+</head>
+<body>
+    <header class="page-footer docs-footer valign-wrapper">
+        <div class="container lighten-2">
+            <div class="row">
+                <div class="col s8 left-align">
+                    <a class="waves-effect waves-light btn" href="/index">首页</a>
+                    <a class="waves-effect waves-light btn" href="/course">课程</a>
+                    <a class="waves-effect waves-light btn" href="#">题库</a>
+                    <a class="waves-effect waves-light btn" href="#">智能</a>
+                    <a class="waves-effect waves-light btn" href="#">评测</a>
+                </div>
+                <div class="col s4 right-align">
+                    <div id="user_op">
+                        <a id="register_btn" class="waves-effect waves-light btn" href="/register">注册</a>
+                        <a id="login_btn" class="waves-effect waves-light btn" href="/login">登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <br/>
+        <div class="container">
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">perm_identity</i>
+                    <input id="name" type="text" class="validate">
+                    <label for="name">姓名</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">account_circle</i>
+                    <input id="account" type="text" class="validate">
+                    <label for="account">账户</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">vpn_key</i>
+                    <input id="password" type="password" class="validate">
+                    <label for="password">密码</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="tel" type="text" class="validate">
+                    <label for="tel">手机号(可选)</label>
+                </div>
+            </div>
+            <div class="ro">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">contacts</i>
+                    <select id="sex">
+                        <option value="" disabled selected>选择性别</option>
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">label</i>
+                    <input id="age" type="text" class="validate">
+                    <label for="age">年龄</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">label</i>
+                    <input id="school" type="text" class="validate">
+                    <label for="school">学校</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">email</i>
+                    <input id="email" type="email" class="validate">
+                    <label for="email" data-error="格式错误" data-success="格式正确">邮箱</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                        <i class="material-icons prefix">label</i>
+                    <input id="parent" type="text" class="validate">
+                    <label for="parent">监护人姓名</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">label</i>
+                    <input id="relation" type="text" class="validate">
+                    <label for="relation">亲属关系</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">phone</i>
+                    <input id="parent_tel" type="text" class="validate">
+                    <label for="parent_tel">监护人手机号</label>
+                </div>
+                <div class="col s3">
+                    <a class="waves-effect waves-light btn float" onclick="Register()">注册</a>
+                </div>
+                <div class="col s3 offset-s6 right-align">
+                    <a class="waves-effect waves-light btn float">邮箱验证</a>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer docs-footer valign-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 center-align">
+                    <h6>Footer Page Info</h6>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
